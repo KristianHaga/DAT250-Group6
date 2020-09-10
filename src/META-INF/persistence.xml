@@ -4,9 +4,9 @@
              version="2.0" xmlns="http://java.sun.com/xml/ns/persistence">
     <persistence-unit name="polls" transaction-type="RESOURCE_LOCAL">
 
+        <class>no.hvl.dat250.model.User</class>
         <class>no.hvl.dat250.model.Poll</class>
-        <!-- #<class>no.hvl.dat250.model.User</class> -->
-        <!-- <class>no.hvl.dat250.model.IoTDevice</class> -->
+        <class>no.hvl.dat250.model.IoTDevice</class>
 
         <properties>
             <property name="javax.persistence.jdbc.driver" value="org.apache.derby.jdbc.EmbeddedDriver" />

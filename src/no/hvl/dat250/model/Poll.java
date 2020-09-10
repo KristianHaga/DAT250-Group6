@@ -1,23 +1,27 @@
 package no.hvl.dat250.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class Poll {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.TABLE)
     private long id;
     private String question;
     private String alternativ1;
-    private String getAlternativ2;
+    private String alternativ2;
     private int alternativ1Respons = 0;
     private int alternativ2Respons = 0;
-    private Boolean isPublic;
     private int timeLimit;
-    private Boolean active;
+    private Boolean isPublic;
+    private Boolean isActive;
+
+    @ManyToOne
+    private User creator;
+
+    @OneToMany(mappedBy = "poll")
+    private List<IoTDevice> iotDevices;
 
     public String getQuestion() {
         return question;
@@ -35,12 +39,12 @@ public class Poll {
         this.alternativ1 = alternativ1;
     }
 
-    public String getGetAlternativ2() {
-        return getAlternativ2;
+    public String getAlternativ2() {
+        return alternativ2;
     }
 
-    public void setGetAlternativ2(String getAlternativ2) {
-        this.getAlternativ2 = getAlternativ2;
+    public void setAlternativ2(String alternativ2) {
+        this.alternativ2 = alternativ2;
     }
 
     public int getAlternativ1Respons() {
@@ -59,14 +63,6 @@ public class Poll {
         this.alternativ2Respons = alternativ2Respons;
     }
 
-    public Boolean getPublic() {
-        return isPublic;
-    }
-
-    public void setPublic(Boolean aPublic) {
-        isPublic = aPublic;
-    }
-
     public int getTimeLimit() {
         return timeLimit;
     }
@@ -75,11 +71,51 @@ public class Poll {
         this.timeLimit = timeLimit;
     }
 
+    public Boolean getPublic() {
+        return isPublic;
+    }
+
+    public void setPublic(Boolean aPublic) {
+        isPublic = aPublic;
+    }
+
     public Boolean getActive() {
-        return active;
+        return isActive;
     }
 
     public void setActive(Boolean active) {
-        this.active = active;
+        isActive = active;
+    }
+
+    public User getCreator() {
+        return creator;
+    }
+
+    public void setCreator(User creator) {
+        this.creator = creator;
+    }
+
+    public List<IoTDevice> getIotDevices() {
+        return iotDevices;
+    }
+
+    public void setIotDevices(List<IoTDevice> iotDevices) {
+        this.iotDevices = iotDevices;
+    }
+
+    @Override
+    public String toString() {
+        return " Poll{" +
+                "\n         id=" + id +
+                "\n         question='" + question + '\'' +
+                "\n         alternativ1='" + alternativ1 + '\'' +
+                "\n         alternativ2='" + alternativ2 + '\'' +
+                "\n         alternativ1Respons=" + alternativ1Respons +
+                "\n         alternativ2Respons=" + alternativ2Respons +
+                "\n         timeLimit=" + timeLimit +
+                "\n         isPublic=" + isPublic +
+                "\n         isActive=" + isActive +
+                "\n         iotDevices=" + iotDevices + "\n     " +
+                '}';
     }
 }
