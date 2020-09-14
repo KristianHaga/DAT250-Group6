@@ -6,6 +6,7 @@
 
         <class>no.hvl.dat250.model.User</class>
         <class>no.hvl.dat250.model.Poll</class>
+        <class>no.hvl.dat250.model.Vote</class>
         <class>no.hvl.dat250.model.IoTDevice</class>
 
         <properties>

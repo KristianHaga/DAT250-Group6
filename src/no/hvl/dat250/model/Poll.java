@@ -1,66 +1,46 @@
 package no.hvl.dat250.model;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 public class Poll {
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-    private String question;
-    private String alternativ1;
-    private String alternativ2;
-    private int alternativ1Respons = 0;
-    private int alternativ2Respons = 0;
     private int timeLimit;
     private Boolean isPublic;
     private Boolean isActive;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    private Vote vote;
+
     @ManyToOne
     private User creator;
 
-    @OneToMany(mappedBy = "poll")
+    @OneToMany(mappedBy = "poll", cascade = CascadeType.ALL)
     private List<IoTDevice> iotDevices;
 
-    public String getQuestion() {
-        return question;
+    public Poll() {
+
     }
 
-    public void setQuestion(String question) {
-        this.question = question;
+    public Poll(int timeLimit, Boolean isPublic, Boolean isActive, User creator, Vote vote) {
+        this.timeLimit = timeLimit;
+        this.isPublic = isPublic;
+        this.isActive = isActive;
+        this.vote = vote;
+        this.creator = creator;
+        this.iotDevices = new ArrayList<>();
     }
 
-    public String getAlternativ1() {
-        return alternativ1;
+    public long getId() {
+        return id;
     }
 
-    public void setAlternativ1(String alternativ1) {
-        this.alternativ1 = alternativ1;
-    }
-
-    public String getAlternativ2() {
-        return alternativ2;
-    }
-
-    public void setAlternativ2(String alternativ2) {
-        this.alternativ2 = alternativ2;
-    }
-
-    public int getAlternativ1Respons() {
-        return alternativ1Respons;
-    }
-
-    public void setAlternativ1Respons(int alternativ1Respons) {
-        this.alternativ1Respons = alternativ1Respons;
-    }
-
-    public int getAlternativ2Respons() {
-        return alternativ2Respons;
-    }
-
-    public void setAlternativ2Respons(int alternativ2Respons) {
-        this.alternativ2Respons = alternativ2Respons;
+    public void setId(long id) {
+        this.id = id;
     }
 
     public int getTimeLimit() {
@@ -87,6 +67,14 @@ public class Poll {
         isActive = active;
     }
 
+    public Vote getVote() {
+        return vote;
+    }
+
+    public void setVote(Vote vote) {
+        this.vote = vote;
+    }
+
     public User getCreator() {
         return creator;
     }
@@ -101,21 +89,5 @@ public class Poll {
 
     public void setIotDevices(List<IoTDevice> iotDevices) {
         this.iotDevices = iotDevices;
-    }
-
-    @Override
-    public String toString() {
-        return " Poll{" +
-                "\n         id=" + id +
-                "\n         question='" + question + '\'' +
-                "\n         alternativ1='" + alternativ1 + '\'' +
-                "\n         alternativ2='" + alternativ2 + '\'' +
-                "\n         alternativ1Respons=" + alternativ1Respons +
-                "\n         alternativ2Respons=" + alternativ2Respons +
-                "\n         timeLimit=" + timeLimit +
-                "\n         isPublic=" + isPublic +
-                "\n         isActive=" + isActive +
-                "\n         iotDevices=" + iotDevices + "\n     " +
-                '}';
     }
 }

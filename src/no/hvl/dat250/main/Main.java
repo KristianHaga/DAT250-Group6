@@ -1,8 +1,11 @@
 package no.hvl.dat250.main;
 
+import no.hvl.dat250.dao.DaoPoll;
+import no.hvl.dat250.dao.DaoUser;
 import no.hvl.dat250.model.User;
 import no.hvl.dat250.model.Poll;
 import no.hvl.dat250.model.IoTDevice;
+import no.hvl.dat250.model.Vote;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -17,41 +20,29 @@ public class Main {
         EntityManagerFactory factory = Persistence.createEntityManagerFactory("polls");
         EntityManager em = factory.createEntityManager();
 
-        // Creating User
-        User user = new User();
-        user.setUserName("OlaNordmann");
-        user.setFirstName("Ola");
-        user.setLastName("Nordmann");
-        user.setPassword("123456789");
+        DaoPoll daoPoll = new DaoPoll(em);
+        DaoUser daoUser = new DaoUser(em);
 
-        // Creating Poll
-        Poll poll = new Poll();
-        poll.setQuestion("Red or Blue");
-        poll.setAlternativ1("Red");
-        poll.setAlternativ2("Blue");
-        poll.setTimeLimit(100);
-        poll.setPublic(true);
-        poll.setActive(false);
-        poll.setCreator(user);
-
-        // Creating IoT Device
-        IoTDevice iotDevice = new IoTDevice();
-        iotDevice.setPoll(poll);
-
-        user.setPolls(new ArrayList<Poll>() { { add(poll); } });
-        poll.setIotDevices(new ArrayList<IoTDevice>() { { add(iotDevice); } });
-
-        em.getTransaction().begin();
-
-        em.persist(user);
-        em.persist(poll);
-        em.persist(iotDevice);
-
-        Query q = em.createQuery("select u from User u");
-        List<User> userList = q.getResultList();
-        for (User usr : userList) {
-            System.out.println(usr);
+        List<User> users = daoUser.findAll();
+        System.out.println("-------- Users ----------");
+        for(User user : users) {
+            System.out.println(user.getUserName() + " " + user.getLastName());
         }
+
+        System.out.println("-------- Polls ----------");
+        List<Poll> polls = daoUser.findPollsCreated("Ola");
+        for(Poll poll : polls) {
+            System.out.println(poll.getVote().getQuestion());
+        }
+        System.out.println("-------------------------");
+
+
+        /*
+        List<Poll> polls = daoPoll.findPublicPolls();
+        for(Poll poll : polls) {
+            System.out.println(poll.getCreator().getUserName());
+        }
+        */
 
         em.close();
     }

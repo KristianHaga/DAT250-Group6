@@ -1,6 +1,7 @@
 package no.hvl.dat250.model;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -11,9 +12,27 @@ public class User {
     private String password;
     private String firstName;
     private String lastName;
+    private List<Poll> pollsVotedOn;
 
-    @OneToMany(mappedBy = "creator")
-    private List<Poll> polls;
+    @OneToMany(mappedBy = "creator", cascade = CascadeType.ALL)
+    private List<Poll> pollsCreated;
+
+    public User() {
+
+    }
+
+    public User(String userName, String password, String firstName, String lastName) {
+        this.userName = userName;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.pollsVotedOn = new ArrayList<>();
+        this.pollsCreated = new ArrayList<>();
+    }
+
+    public void createPoll(Poll poll) {
+        this.pollsCreated.add(poll);
+    }
 
     public String getUserName() {
         return userName;
@@ -47,22 +66,19 @@ public class User {
         this.lastName = lastName;
     }
 
-    public List<Poll> getPolls() {
-        return polls;
+    public List<Poll> getPollsVotedOn() {
+        return pollsVotedOn;
     }
 
-    public void setPolls(List<Poll> polls) {
-        this.polls = polls;
+    public void setPollsVotedOn(List<Poll> pollsVotedOn) {
+        this.pollsVotedOn = pollsVotedOn;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "\n     userName='" + userName + '\'' +
-                "\n     password='" + password + '\'' +
-                "\n     firstName='" + firstName + '\'' +
-                "\n     lastName='" + lastName + '\'' +
-                "\n     polls=" + polls + "\n" +
-                '}';
+    public List<Poll> getPollsCreated() {
+        return pollsCreated;
+    }
+
+    public void setPollsCreated(List<Poll> pollsCreated) {
+        this.pollsCreated = pollsCreated;
     }
 }

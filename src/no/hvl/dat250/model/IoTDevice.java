@@ -11,18 +11,23 @@ public class IoTDevice {
     @ManyToOne
     private Poll poll;
 
+    public IoTDevice() {
+
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
     public Poll getPoll() {
         return poll;
     }
 
     public void setPoll(Poll poll) {
         this.poll = poll;
-    }
-
-    @Override
-    public String toString() {
-        return " IoTDevice{" +
-                "\n             id=" + id + "\n         " +
-                '}';
     }
 }
