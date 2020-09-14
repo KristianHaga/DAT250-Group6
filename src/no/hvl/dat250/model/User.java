@@ -12,6 +12,8 @@ public class User {
     private String password;
     private String firstName;
     private String lastName;
+
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Poll> pollsVotedOn;
 
     @OneToMany(mappedBy = "creator", cascade = CascadeType.ALL)
