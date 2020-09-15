@@ -9,7 +9,7 @@ public class Poll {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-    private int timeLimit;
+    private int timeLimit; // This will be changed to a Data format in a later version
     private Boolean isPublic;
     private Boolean isActive;
 
